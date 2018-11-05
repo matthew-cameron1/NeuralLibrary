@@ -1,6 +1,6 @@
 package io.matthd.neurallibrary.network;
 
-import java.util.Random;
+import java.util.Arrays;
 
 public class Network {
 
@@ -23,11 +23,11 @@ public class Network {
             this.neuronOut[layer] = new double[networkSizes[layer]];
 
             if (layer > 0) {
-                this.weights[layer] = new double[networkSizes[layer]][networkSizes[layer-1]];
+                this.weights[layer] = new double[networkSizes[layer]][networkSizes[layer - 1]];
                 for (int neuron = 0; neuron < networkSizes[layer]; neuron++) {
 
-                    for (int lastNeuron = 0; lastNeuron < networkSizes[layer-1]; lastNeuron++) {
-                        weights[layer][neuron][lastNeuron] = new Random().nextDouble();
+                    for (int lastNeuron = 0; lastNeuron < networkSizes[layer - 1]; lastNeuron++) {
+                        weights[layer][neuron][lastNeuron] = Math.random();
                     }
                 }
             }
@@ -62,7 +62,7 @@ public class Network {
                 double delta = -learningRate * errors[layer][neuron];
 
                 for (int lastNeuron = 0; lastNeuron < networkSizes[layer - 1]; lastNeuron++) {
-                    weights[layer][neuron][lastNeuron] += delta*neuronOut[layer-1][lastNeuron];
+                    weights[layer][neuron][lastNeuron] += delta * neuronOut[layer - 1][lastNeuron];
                 }
             }
         }
@@ -89,5 +89,21 @@ public class Network {
 
     private double sigmoidDeriv(double x) {
         return 1 * (1 - x);
+    }
+
+    public static void main(String[] args) {
+        Network network = new Network(new int[]{2, 3, 1});
+
+        double[] input = new double[]{1, 1};
+        double[] output = new double[]{0};
+
+        for (int epochs = 0; epochs < 1000; epochs++) {
+            network.train(input, output, 0.3);
+            //Train our network to the new data
+        }
+
+        //Lets see if we get the correct output after our training data
+        System.out.println("The network output for input: " + Arrays.toString(input) + " is:");
+        System.out.println(Arrays.toString(network.guess(input)));
     }
 }
