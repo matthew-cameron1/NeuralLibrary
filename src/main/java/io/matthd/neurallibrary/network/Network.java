@@ -95,15 +95,24 @@ public class Network {
         Network network = new Network(new int[]{2, 3, 1});
 
         double[] input = new double[]{1, 1};
+        double[] inputTwo = new double[]{0,1};
+
+        //There is a better way to do this, will add later
+
         double[] output = new double[]{0};
+        double[] outputTwo = new double[]{1};
 
         for (int epochs = 0; epochs < 1000; epochs++) {
             network.train(input, output, 0.3);
+            network.train(inputTwo, outputTwo, 0.3);
             //Train our network to the new data
         }
 
         //Lets see if we get the correct output after our training data
         System.out.println("The network output for input: " + Arrays.toString(input) + " is:");
         System.out.println(Arrays.toString(network.guess(input)));
+
+        System.out.println("The network output for input: " + Arrays.toString(inputTwo) + " is:");
+        System.out.println(Arrays.toString(network.guess(inputTwo)));
     }
 }
